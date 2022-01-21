@@ -6,8 +6,16 @@ public class Ausgeben {
             for (int y = 0; y < 7; y++) {
                 System.out.print("|");
                 System.out.print(spielfeld.spielfeld[x][y]);
+
             }
-            System.out.println();
+            System.out.print("|");
+
+           System.out.println();
+
+            System.out.println("———————————————");
+
+
+
         }
 
         return "";
