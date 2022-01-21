@@ -22,11 +22,19 @@ public class Main {
             e.printStackTrace();
         }
 
+        //Spielfeld generieren
         Spielfeld spielfeld = new Spielfeld();
         spielfeld.spielfeld[1][2] = 1;
-        System.out.println(Arrays.deepToString(spielfeld.spielfeld));
+        Ausgeben.spielfeldausgeben(spielfeld);
 
-        String ausgeben = new Ausgeben().spielfeldausgeben(spielfeld);
+        //Steuerung erklären
 
+        //Spielrunde startet: Spieler setzen abwechselnd Steine bis einer Gewinnt
+
+
+    }
+
+    public void startGame(Spielfeld spielfeld) {
+        //
     }
 }

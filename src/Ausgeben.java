@@ -1,5 +1,5 @@
 public class Ausgeben {
-    public String spielfeldausgeben(Spielfeld spielfeld) {
+    public static void spielfeldausgeben(Spielfeld spielfeld) {
 
         for (int x = 0; x < 6; x++) {
 
@@ -10,7 +10,7 @@ public class Ausgeben {
             System.out.println();
         }
 
-        return "";
+
     }
 
 }
