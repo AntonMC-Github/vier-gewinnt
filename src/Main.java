@@ -28,13 +28,15 @@ public class Main {
         Ausgeben.spielfeldausgeben(spielfeld);
 
         //Steuerung erklären
+        //Mit Pfeiltasten auswählen wo der Spielstein gesetzt werden soll - Mit Pfeil nach unten Setzen
 
         //Spielrunde startet: Spieler setzen abwechselnd Steine bis einer Gewinnt
+        startGame(spielfeld);
 
 
     }
 
-    public void startGame(Spielfeld spielfeld) {
-        //
+    public static void startGame(Spielfeld spielfeld) {
+        boolean gameRunning = true;
     }
 }
