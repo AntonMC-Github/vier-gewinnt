@@ -9,6 +9,8 @@ public class Main {
         spielfeld.spielfeld[1][2] = 1;
         System.out.println(Arrays.deepToString(spielfeld.spielfeld));
 
+        String ausgeben = new Ausgeben().spielfeldausgeben(spielfeld);
+
 
     }
 }

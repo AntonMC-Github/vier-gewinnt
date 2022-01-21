@@ -1,8 +1,14 @@
 public class Ausgeben {
     public String spielfeldausgeben(Spielfeld spielfeld) {
-        //
-        System.out.println("--------");
-        System.out.println("/" + spielfeld.spielfeld[0][0]);
+
+        for (int x = 0; x < 6; x++) {
+            for (int y = 0; y < 7; y++) {
+                System.out.print(spielfeld.spielfeld[x][y]);
+            }
+            System.out.println();
+        }
+
         return "";
     }
+
 }
