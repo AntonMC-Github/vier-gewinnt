@@ -46,7 +46,6 @@ public class Main {
 
         //So lange das Spiel läuft neue Runden starten
         while (gameRunning) {
-
             while (inputRunning) {
                 //Zuerst Auswählen lassen an welche Stelle der Spieler den Spielstein setzen möchte
                 System.out.println("Wo möchtest du den Spielstein setzen?");
@@ -54,7 +53,7 @@ public class Main {
                 int input = scanner.nextInt();
 
                 //Eingabe überprüfen
-                if (!(0 <= input && input <= 7)) {
+                if (!(1 <= input && input <= 7)) {
                     //Fehler
                     //TODO: Fehlermeldung
                 } else {
@@ -73,15 +72,35 @@ public class Main {
                         //TODO: Fehlermeldung und erneute Eingabe
                     }
                 }
-
             }
 
             //Testen ob Spieler gewonnen hat
+            for (int i = 0; i <= 2; i++)
+                for (int j = 0; j <= 6; j++) {
+                    if (spielfeld.spielfeld[i][j] == currentPlayer && spielfeld.spielfeld[i + 1][j] == currentPlayer && spielfeld.spielfeld[i + 2][j] == currentPlayer && spielfeld.spielfeld[i + 3][j] == currentPlayer) {
+                        gameRunning = false;
+                    }
+                }
+
+
+            for (int i = 0; i <= 5; i++)
+                for (int j = 0; j <= 3; j++) {
+                    if (spielfeld.spielfeld[i][j] == currentPlayer && spielfeld.spielfeld[i][j + 1] == currentPlayer && spielfeld.spielfeld[i][j + 2] == currentPlayer && spielfeld.spielfeld[i][j + 3] == currentPlayer) {
+                        gameRunning = false;
+                    }
+                }
+
+
+            for (int i = 0; i <= 2; i++)
+                for (int j = 0; j <= 3; j++) {
+                    if (spielfeld.spielfeld[i][j] == currentPlayer && spielfeld.spielfeld[i + 1][j + 1] == currentPlayer && spielfeld.spielfeld[i + 2][j + 2] == currentPlayer && spielfeld.spielfeld[i + 3][j + 3] == currentPlayer) {
+                        gameRunning = false;
+                    }
+                }
             //Fall ja, Spiel beenden
             //Sonst ist der andere Spieler dran
             Ausgeben.spielfeldausgeben(spielfeld);
             inputRunning = true;
-            gameRunning = false;
 
         }
     }
