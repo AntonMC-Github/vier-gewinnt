@@ -59,12 +59,20 @@ public class Main {
     public static void startGame(Spielfeld spielfeld) {
         //Spielvariablen definieren
         boolean gameRunning = true;
-        boolean inputRunning = true;
-        int currentPlayer = 1;
+        int currentPlayer = 2;
         Scanner scanner = new Scanner(System.in);
 
         //So lange das Spiel läuft neue Runden starten
         while (gameRunning) {
+            //Zuerst Spieler wechseln
+            switch (currentPlayer) {
+                case 1 -> currentPlayer = 2;
+                case 2 -> currentPlayer = 1;
+            }
+
+            boolean inputRunning = true;
+
+            //Solange der Spieler noch keine richtige Eingabe gegeben hat Spieler Eingabe geben lassen
             while (inputRunning) {
                 //Zuerst Auswählen lassen an welche Stelle der Spieler den Spielstein setzen möchte
                 System.out.println("\n\n Wo möchtest du den Spielstein setzen?");
@@ -108,14 +116,12 @@ public class Main {
                     }
                 }
 
-
             for (int i = 0; i <= 5; i++)
                 for (int j = 0; j <= 3; j++) {
                     if (spielfeld.spielfeld[i][j] == currentPlayer && spielfeld.spielfeld[i][j + 1] == currentPlayer && spielfeld.spielfeld[i][j + 2] == currentPlayer && spielfeld.spielfeld[i][j + 3] == currentPlayer) {
                         gameRunning = false;
                     }
                 }
-
 
             for (int i = 0; i <= 2; i++)
                 for (int j = 0; j <= 3; j++) {
@@ -126,8 +132,8 @@ public class Main {
             //Falls ja, Spiel beenden
             //Sonst ist der andere Spieler dran
             Ausgeben.spielfeldausgeben(spielfeld);
-            inputRunning = true;
-
         }
+
+        System.out.println("Herzlichen Glückwunsch Spieler " + currentPlayer);
     }
 }
