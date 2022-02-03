@@ -1,3 +1,15 @@
+/*
+TODO: Farben statt 1 und 2
+TODO: Anleitung
+TODO: Dokumentation
+
+Vier Gewinnt von Alina und Lukas
+
+Ziel des Spieles ist es, vier eigene Spielsteine in Reieh zu haben, sie könenn dabei direkt nebenbeinander, aufeinander oder diagonal liegen.
+
+ */
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +21,9 @@ public class Main {
 
     //Switch für die Konsolenbasierte Version des Spiels
     public static boolean debugMode = false;
+
+    //Spielfeld
+    public static Spielfeld spielfeld = new Spielfeld();
 
     public static void main(String[] args) {
         System.out.println("""
@@ -26,9 +41,10 @@ public class Main {
         else startGUIScreen();
     }
 
+    public static JFrame meinFrame = new JFrame("Vier Gewinnt");
+
     public static void startGUIScreen() {
         //Grundlegende Fensterinitialisierung
-        JFrame meinFrame = new JFrame("Vier Gewinnt");
         meinFrame.setSize(800, 600);
         meinFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -37,18 +53,37 @@ public class Main {
         //Zusätzliche Menübar mit der sich bei Bedarf ein neues Spiel starten lässt
         JMenuBar menu = new JMenuBar();
         JMenu option = new JMenu("Spiel");
+        JMenuItem mainmenu = new JMenuItem("Zurück zum Hauptmenü");
+        mainmenu.addActionListener(e -> {
+            resetGame();
+            startGUIScreen();
+        });
+        option.add(mainmenu);
         JMenuItem neu = new JMenuItem("Neues Spiel starten");
+        neu.addActionListener(e -> {
+            resetGame();
+            startGUIGame();
+        });
         option.add(neu);
-        menu.add(option); //setJMenuBar(menu);
+        menu.add(option);
         meinFrame.setJMenuBar(menu);
 
         //Startscreen - Spieler begrüßen und Button zum Starten des Spiels
         startScreen.add(new JLabel("Willkommen bei Vier Gewinnt", SwingConstants.CENTER), BorderLayout.CENTER);
+
+        JButton anleitung = new JButton("Anleitung");
+        anleitung.setPreferredSize(new Dimension(256, 150));
+        anleitung.addActionListener(e -> {
+            startScreen.setVisible(false);
+            anleitung();
+        });
+        startScreen.add(anleitung, BorderLayout.NORTH);
+
         JButton startGameButton = new JButton("Spiel starten");
         startGameButton.setPreferredSize(new Dimension(256, 150));
         startGameButton.addActionListener(e -> {
             startScreen.setVisible(false);
-            startGUIGame(new Spielfeld());
+            startGUIGame();
         });
         startScreen.add(startGameButton, BorderLayout.PAGE_END);
 
@@ -58,8 +93,132 @@ public class Main {
 
     }
 
-    public static void startGUIGame(Spielfeld spielfeld) {
-        //Als erstes Spiel
+    public static void anleitung() {
+        JPanel containerFenster = new JPanel(new BorderLayout());
+
+        JPanel labelPanel = new JPanel();
+        someText.setText("\" Wie Ihr das Spiel steuert:\\n\\n\" +\n" +
+                         "                           \"Der Spieler (x) steuert die Spielsteine indem er die Pfeiltasten betätigt.\\n\" +\n" +
+                         "                           \"Um den Stein nach rechts zu setzten, muss die reschte Pfeil-Taste genuzt werde.\\n Um den Stein nach links zu setzten muss die linke Pfeiltaste betätigt werden.\\n\" +\n" +
+                         "                           \"Um den Speilzug zu bestätigen muss die Pfeiltaste die nach unten zeigt genuzt werden.\\n\" +\n" +
+                         "                           \"\" +\n" +
+                         "                           \"\\nDer Spieler (o) steuert die Spielsteine in dem die Tasten \\\"A\\\" , \\\"S\\\" und \\\"D\\\" verwendet werden.\\n\" +\n" +
+                         "                           \"\\\"A\\\" wird betätigt um den Stein nach links zu setzen und \\\"D\\\" um den Stein nach rechts zu setzen.\\n\" +\n" +
+                         "                           \" Um den Spielzug zu bestätigen, muss \\\"S\\\" gedrückt werden. \" +\n" +
+                         "                           \"\\n\\n Viel vergnügen beim Spielen!\"");
+        someText.setFont(new Font("Calibri", Font.PLAIN, 18));
+        labelPanel.add(someText);
+        containerFenster.add(labelPanel, BorderLayout.CENTER);
+
+        JButton anleitung = new JButton("Hauptmenü");
+        anleitung.setPreferredSize(new Dimension(256, 150));
+        anleitung.addActionListener(e -> {
+            containerFenster.setVisible(false);
+            startGUIScreen();
+        });
+        containerFenster.add(anleitung, BorderLayout.NORTH);
+
+
+        JButton startGameButton = new JButton("Spiel starten");
+        startGameButton.setPreferredSize(new Dimension(256, 150));
+        startGameButton.addActionListener(e -> {
+            containerFenster.setVisible(false);
+            startGUIGame();
+        });
+        containerFenster.add(startGameButton, BorderLayout.PAGE_END);
+
+        meinFrame.setContentPane(containerFenster);
+        //meinFrame.setVisible(true);
+    }
+
+    public static JButton[][] grid = new JButton[6][7];
+    public static JLabel someText = new JLabel();
+
+    public static void startGUIGame() {
+
+        //Spielfeldfenster initialisieren
+        JPanel containerFenster = new JPanel(new BorderLayout());
+
+        JPanel labelPanel = new JPanel();
+        someText.setText("Spieler 1 ist dran");
+        someText.setFont(new Font("Calibri", Font.BOLD, 20));
+        labelPanel.add(someText);
+
+        JPanel spiefeldFenster = new JPanel(new GridLayout(6, 7));
+        ButtonListener bl = new ButtonListener();
+        for (int x = 0; x < 6; x++) {
+            for (int y = 0; y < 7; y++) {
+                grid[x][y] = new JButton(" ");
+                if (x != 0) grid[x][y].setEnabled(false);
+                grid[x][y].addActionListener(bl);
+                grid[x][y].setFont(new Font("Calibri", Font.PLAIN, 15));
+                spiefeldFenster.add(grid[x][y]);
+            }
+        }
+
+        containerFenster.add(spiefeldFenster, BorderLayout.CENTER);
+        containerFenster.add(labelPanel, BorderLayout.NORTH);
+
+        meinFrame.setContentPane(containerFenster);
+        meinFrame.setVisible(true);
+
+        System.out.println("Herzlichen Glückwunsch Spieler " + spielfeld.currentPlayer);
+    }
+
+    static class ButtonListener implements java.awt.event.ActionListener {
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+
+            // Wenn dieser Code aufgerufen wird wissenw wir, dass ein Button
+            // geklickt wurde – aber *welcher*? Hier können Sie sehen, dass es
+            // Situationen gibt, wo Objekte mit '==' verglichen werden!
+            // (Objektidentität wird gefragt, nicht (nur) inhaltliche Identität!)
+            for (int x = 0; x < 6; x++) {
+                for (int y = 0; y < 7; y++) {
+                    if (e.getSource() == grid[x][y]) {
+                        //System.out.println((x+1) + (y+1) + " wurde aufgerufen.");
+
+                        if (spielfeld.spielfeld[0][y] == 0) {
+                            //wenn noch Platz frei ist, Spielstein setzen.
+                            for (int b = 5; b >= 0; b--) {
+                                if (spielfeld.spielfeld[b][y] == 0) {
+                                    if (b == 0) {
+                                        grid[b][y].setEnabled(false);
+                                    }
+                                    spielfeld.spielfeld[b][y] = spielfeld.currentPlayer;
+                                    grid[b][y].setText(String.valueOf(spielfeld.currentPlayer));
+                                    switch (spielfeld.currentPlayer) {
+                                        case 1 -> spielfeld.currentPlayer = 2;
+                                        case 2 -> spielfeld.currentPlayer = 1;
+                                    }
+
+                                    if (Spielfeld.determineWinner(spielfeld)) {
+                                        JOptionPane.showMessageDialog(null, "Spieler " + spielfeld.currentPlayer + " hat gewonnen!");
+                                        resetGame();
+                                    }
+                                    someText.setText("Spieler " + spielfeld.currentPlayer + " ist dran");
+                                    break;
+                                }
+                            }
+                        } else {
+                            someText.setText("Reihe ist bereits voll");
+                        }
+
+                    }
+                }
+
+            }
+        }
+    }
+
+    public static void resetGame() {
+        for (int x = 0; x < 6; x++) {
+            for (int y = 0; y < 7; y++) {
+                grid[x][y].setText("");
+                if (x != 0) grid[x][y].setEnabled(false);
+                else grid[x][y].setEnabled(true);
+                spielfeld.spielfeld[x][y] = 0;
+            }
+        }
     }
 
 
@@ -87,22 +246,19 @@ public class Main {
         //Mit Pfeiltasten auswählen wo der Spielstein gesetzt werden soll - Mit Pfeil nach unten Setzen
 
         //Spielrunde startet: Spieler setzen abwechselnd Steine bis einer Gewinnt
-        startGame(spielfeld);
+        startGame();
     }
 
     //Eigentliches Spiel
-    public static void startGame(Spielfeld spielfeld) {
-        //Spielvariablen definieren
-        boolean gameRunning = true;
-        int currentPlayer = 2;
+    public static void startGame() {
         Scanner scanner = new Scanner(System.in);
 
         //Solange das Spiel läuft neue Runden starten
-        while (gameRunning) {
+        while (spielfeld.gameRunning) {
             //Zuerst Spieler wechseln
-            switch (currentPlayer) {
-                case 1 -> currentPlayer = 2;
-                case 2 -> currentPlayer = 1;
+            switch (spielfeld.currentPlayer) {
+                case 1 -> spielfeld.currentPlayer = 2;
+                case 2 -> spielfeld.currentPlayer = 1;
             }
 
             boolean inputRunning = true;
@@ -110,18 +266,16 @@ public class Main {
             //Solange der Spieler noch keine richtige Eingabe gegeben hat Spieler Eingabe geben lassen
             while (inputRunning) {
                 //Auswählen lassen an welche Stelle der Spieler den Spielstein setzen möchte
-                System.out.println("\n\nSpieler " + currentPlayer + " Wo möchtest du den Spielstein setzen?");
+                System.out.println("\n\nSpieler " + spielfeld.currentPlayer + " Wo möchtest du den Spielstein setzen?");
                 System.out.println("Bitte gib eine Zahl zwischen 1 und 7 ein: ");
                 int input = scanner.nextInt();
 
                 //Eingabe überprüfen
                 if (!(1 <= input && input <= 7)) {
                     //Fehler
-                    //(TODO:) Fehlermeldung
                     System.out.println("\n\n\nHey!\n\n Du hast einen Spielbereich ausgewählt," +
                                        " der nicht besetzt werden kann.\n " +
                                        "Bitte wähle einen Bereich zwischen 0-7 in der waagerechten und 0-6 in der senkrechten. ");
-
 
                 } else {
                     //Testen, ob an dieser Stelle noch Platz ist,
@@ -129,47 +283,27 @@ public class Main {
                         //wenn noch Platz frei ist, Spielstein setzen.
                         for (int x = 5; x >= 0; x--) {
                             if (spielfeld.spielfeld[x][input - 1] == 0) {
-                                spielfeld.spielfeld[x][input - 1] = currentPlayer;
+                                spielfeld.spielfeld[x][input - 1] = spielfeld.currentPlayer;
                                 inputRunning = false;
                                 break;
                             }
                         }
                     } else {
                         //Reihe ist bereits voll
-                        //(TODO:) Fehlermeldung und erneute Eingabe
                         System.out.println("\n\n\nHey!\n\n Du hast einen Spielbereich ausgewählt, " +
                                            "der schon mit Spielsteinen voll besetzt ist!\n Bitte wähle einen anderen Bereich aus.");
                     }
                 }
             }
 
-            //Testen ob Spieler gewonnen hat
-            for (int i = 0; i <= 2; i++)
-                for (int j = 0; j <= 6; j++)
-                    if (spielfeld.spielfeld[i][j] == currentPlayer && spielfeld.spielfeld[i + 1][j] == currentPlayer && spielfeld.spielfeld[i + 2][j] == currentPlayer && spielfeld.spielfeld[i + 3][j] == currentPlayer) {
-                        gameRunning = false;
-                        break;
-                    }
-
-            for (int i = 0; i <= 5; i++)
-                for (int j = 0; j <= 3; j++)
-                    if (spielfeld.spielfeld[i][j] == currentPlayer && spielfeld.spielfeld[i][j + 1] == currentPlayer && spielfeld.spielfeld[i][j + 2] == currentPlayer && spielfeld.spielfeld[i][j + 3] == currentPlayer) {
-                        gameRunning = false;
-                        break;
-                    }
-
-            for (int i = 0; i <= 2; i++)
-                for (int j = 0; j <= 3; j++)
-                    if (spielfeld.spielfeld[i][j] == currentPlayer && spielfeld.spielfeld[i + 1][j + 1] == currentPlayer && spielfeld.spielfeld[i + 2][j + 2] == currentPlayer && spielfeld.spielfeld[i + 3][j + 3] == currentPlayer) {
-                        gameRunning = false;
-                        break;
-                    }
+            //Gewinnerbestimmung
+            if (Spielfeld.determineWinner(spielfeld)) spielfeld.gameRunning = false;
 
             //Falls ja, Spiel beenden
             //Sonst ist der andere Spieler dran
             Ausgeben.spielfeldausgeben(spielfeld);
         }
 
-        System.out.println("Herzlichen Glückwunsch Spieler " + currentPlayer);
+        System.out.println("Herzlichen Glückwunsch Spieler " + spielfeld.currentPlayer);
     }
 }
