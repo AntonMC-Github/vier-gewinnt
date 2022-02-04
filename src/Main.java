@@ -69,9 +69,13 @@ public class Main {
         meinFrame.setJMenuBar(menu);
 
         //Startscreen - Spieler begrüßen und Button zum Starten des Spiels
-        startScreen.add(new JLabel("Willkommen bei Vier Gewinnt", SwingConstants.CENTER), BorderLayout.CENTER);
+        JLabel willkommen = new JLabel("Willkommen bei Vier Gewinnt", SwingConstants.CENTER);
+        willkommen.setFont(new Font("Monospaced", Font.BOLD, 34));
+        startScreen.add(willkommen, BorderLayout.CENTER);
 
         JButton anleitung = new JButton("Anleitung");
+        anleitung.setFont(new Font("Monospaced", Font.BOLD, 30));
+
         anleitung.setPreferredSize(new Dimension(256, 150));
         anleitung.addActionListener(e -> {
             startScreen.setVisible(false);
@@ -80,6 +84,7 @@ public class Main {
         startScreen.add(anleitung, BorderLayout.NORTH);
 
         JButton startGameButton = new JButton("Spiel starten");
+        startGameButton.setFont(new Font("Monospaced", Font.BOLD, 30));
         startGameButton.setPreferredSize(new Dimension(256, 150));
         startGameButton.addActionListener(e -> {
             startScreen.setVisible(false);
@@ -97,16 +102,14 @@ public class Main {
         JPanel containerFenster = new JPanel(new BorderLayout());
 
         JPanel labelPanel = new JPanel();
-        someText.setText("\" Wie Ihr das Spiel steuert:\\n\\n\" +\n" +
-                         "                           \"Der Spieler (x) steuert die Spielsteine indem er die Pfeiltasten betätigt.\\n\" +\n" +
-                         "                           \"Um den Stein nach rechts zu setzten, muss die reschte Pfeil-Taste genuzt werde.\\n Um den Stein nach links zu setzten muss die linke Pfeiltaste betätigt werden.\\n\" +\n" +
-                         "                           \"Um den Speilzug zu bestätigen muss die Pfeiltaste die nach unten zeigt genuzt werden.\\n\" +\n" +
-                         "                           \"\" +\n" +
-                         "                           \"\\nDer Spieler (o) steuert die Spielsteine in dem die Tasten \\\"A\\\" , \\\"S\\\" und \\\"D\\\" verwendet werden.\\n\" +\n" +
-                         "                           \"\\\"A\\\" wird betätigt um den Stein nach links zu setzen und \\\"D\\\" um den Stein nach rechts zu setzen.\\n\" +\n" +
-                         "                           \" Um den Spielzug zu bestätigen, muss \\\"S\\\" gedrückt werden. \" +\n" +
-                         "                           \"\\n\\n Viel vergnügen beim Spielen!\"");
-        someText.setFont(new Font("Calibri", Font.PLAIN, 18));
+        someText.setText("\" Hey Leute, so könnt ihr „Vier gewinnt“ spielen:\\n\\n\n" +
+                "Über dem Spielfeld wird euch angegeben welcher Spieler an der Reihe ist.\\n\n" +
+                "Anschließend muss der Spieler, der an der Reihe ist, auf die entsprechende Spalte klicken, indem er den Spielstein setzen möchte.\\n\\n\n" +
+                "Viel Spaß beim spielen!!!");
+
+
+
+        someText.setFont(new Font("Calibri", Font.PLAIN, 34));
         labelPanel.add(someText);
         containerFenster.add(labelPanel, BorderLayout.CENTER);
 
@@ -120,6 +123,7 @@ public class Main {
 
 
         JButton startGameButton = new JButton("Spiel starten");
+        startGameButton.setFont(new Font("Calibri", Font.BOLD, 34));
         startGameButton.setPreferredSize(new Dimension(256, 150));
         startGameButton.addActionListener(e -> {
             containerFenster.setVisible(false);
@@ -141,7 +145,7 @@ public class Main {
 
         JPanel labelPanel = new JPanel();
         someText.setText("Spieler 1 ist dran");
-        someText.setFont(new Font("Calibri", Font.BOLD, 20));
+        someText.setFont(new Font("Calibri", Font.BOLD, 34));
         labelPanel.add(someText);
 
         JPanel spiefeldFenster = new JPanel(new GridLayout(6, 7));
@@ -151,7 +155,7 @@ public class Main {
                 grid[x][y] = new JButton(" ");
                 if (x != 0) grid[x][y].setEnabled(false);
                 grid[x][y].addActionListener(bl);
-                grid[x][y].setFont(new Font("Calibri", Font.PLAIN, 15));
+                grid[x][y].setFont(new Font("Calibri", Font.BOLD, 34));
                 spiefeldFenster.add(grid[x][y]);
             }
         }
