@@ -47,7 +47,7 @@ public class Main {
                     \\/   |_|\\___|_|     \\_____|\\___| \\_/\\_/ |_|_| |_|_| |_|\\__|
                                                                               \s
                                                                               \s""".indent(1));
-        System.out.println("Copyright 2021: Alina Korn und Lukas Strutz");
+        System.out.println("Copyright 2022: Alina Korn und Lukas Strutz");
 
         if (debugMode) startScreen();
         else startGUIScreen();
