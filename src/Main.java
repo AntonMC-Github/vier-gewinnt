@@ -64,6 +64,7 @@ public class Main {
         //Grundlegende Fensterinitialisierung
         meinFrame.setSize(800, 600);
         meinFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        meinFrame.setIconImage(new ImageIcon("/Users/lukas/IdeaProjects/viergewinnt/src/logo.jpg").getImage());
         JPanel startScreen = new JPanel(new BorderLayout());
 
         //Zusätzliche Menübar mit der sich bei Bedarf ein neues Spiel starten lässt oder der Spieler zurpck zum Hauptmenü gehen kann
@@ -86,10 +87,10 @@ public class Main {
 
         //Startscreen - Spieler begrüßen und Button zum Starten des Spiels und Anleitung anzeigen
         JLabel willkommen = new JLabel("Willkommen bei Vier Gewinnt", SwingConstants.CENTER);
-        willkommen.setFont(new Font("Monospaced", Font.BOLD, 34));
+        willkommen.setFont(new Font("Calibri", Font.BOLD, 34));
         startScreen.add(willkommen, BorderLayout.CENTER);
         JButton anleitung = new JButton("Anleitung");
-        anleitung.setFont(new Font("Monospaced", Font.BOLD, 30));
+        anleitung.setFont(new Font("Calibri", Font.BOLD, 30));
 
         anleitung.setPreferredSize(new Dimension(256, 150));
         anleitung.addActionListener(e -> {
@@ -98,7 +99,7 @@ public class Main {
         });
         startScreen.add(anleitung, BorderLayout.NORTH);
         JButton startGameButton = new JButton("Spiel starten");
-        startGameButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+        startGameButton.setFont(new Font("Calibri", Font.BOLD, 30));
         startGameButton.setPreferredSize(new Dimension(256, 150));
         startGameButton.addActionListener(e -> {
             startScreen.setVisible(false);
@@ -121,13 +122,12 @@ public class Main {
         JTextArea textArea = new JTextArea("Hey Leute, so könnt ihr „Vier gewinnt“ spielen: \n" +
                                            "Über dem Spielfeld wird euch angegeben welcher Spieler an der Reihe ist. \n" +
                                            "Anschließend muss der Spieler, der an der Reihe ist, auf die entsprechende Spalte klicken, \nindem er den Spielstein setzen möchte.\n" +
-                                           "Viel Spaß beim spielen!!!");
+                                           "Viel Spaß beim Spielen!!!");
         textArea.setEditable(false);
-        textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        textArea.setFont(new Font("Calibri", Font.PLAIN, 18));
         JPanel labelPanel = new JPanel();
         labelPanel.add(textArea);
 
-        labelPanel.add(someText);
         containerFenster.add(labelPanel, BorderLayout.CENTER);
 
         //Zurück zum Hauptmenü
@@ -212,13 +212,12 @@ public class Main {
                                     spielfeld.spielfeld[b][y] = spielfeld.currentPlayer;
                                     grid[b][y].setText(String.valueOf(spielfeld.currentPlayer));
 
-                                    if (spielfeld.currentPlayer == 1) {
-                                        grid[b][y].setBackground(Color.decode("#fa075c"));
-                                        grid[b][y].setOpaque(true);
-                                    } else {
-                                        grid[b][y].setBackground(Color.decode("#1a4154"));
-                                        grid[b][y].setOpaque(true);
+                                    //Farben setzen
+                                    switch (spielfeld.currentPlayer) {
+                                        case 1 -> grid[b][y].setBackground(Color.decode("#fa075c"));
+                                        default -> grid[b][y].setBackground(Color.decode("#1a4154"));
                                     }
+                                    grid[b][y].setOpaque(true);
 
 
                                     //Prüfen ob jemand gewonnen hat
@@ -258,6 +257,8 @@ public class Main {
                 if (x != 0) grid[x][y].setEnabled(false);
                 else grid[x][y].setEnabled(true);
                 spielfeld.spielfeld[x][y] = 0;
+                grid[x][y].setBackground(Color.WHITE);
+                grid[x][y].setOpaque(false);
             }
         }
     }
