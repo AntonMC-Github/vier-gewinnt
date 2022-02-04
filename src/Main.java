@@ -2,7 +2,7 @@
 TODO: Farben statt 1 und 2
 TODO: Farblicher Hintergrund
 TODO: Java Maskottchen bei Gewinnfenster weg
-TODO: Anleitung richtig anzeigen
+TODO: Anleitung mittig
 
 Vier Gewinnt von Alina und Lukas
 
@@ -120,26 +120,12 @@ public class Main {
         //Hier wird die Anleitung erstellt
         JTextArea textArea = new JTextArea("Hey Leute, so könnt ihr „Vier gewinnt“ spielen: \n" +
                                            "Über dem Spielfeld wird euch angegeben welcher Spieler an der Reihe ist. \n" +
-                                           "Anschließend muss der Spieler, der an der Reihe ist, auf die entsprechende Spalte klicken, indem er den Spielstein setzen möchte. +\n" +
+                                           "Anschließend muss der Spieler, der an der Reihe ist, auf die entsprechende Spalte klicken, \nindem er den Spielstein setzen möchte.\n" +
                                            "Viel Spaß beim spielen!!!");
         textArea.setEditable(false);
-        textArea.setFont(new Font("Calibri", Font.PLAIN, 18));
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         JPanel labelPanel = new JPanel();
         labelPanel.add(textArea);
-        JPanel labelPanel = new JPanel();
-        someText.setText("\" Hey Leute, so könnt ihr „Vier gewinnt“ spielen:\\n\\n\n" +
-                "Über dem Spielfeld wird euch angegeben welcher Spieler an der Reihe ist.\\n\n" +
-                "Anschließend muss der Spieler, der an der Reihe ist, auf die entsprechende Spalte klicken, indem er den Spielstein setzen möchte.\\n\\n\n" +
-                "Viel Spaß beim spielen!!!");
-
-
-
-        someText.setFont(new Font("Monospaced", Font.PLAIN, 18));
-
-        //StyledDocument doc = someText.getStyledDocument();
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        //doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
         labelPanel.add(someText);
         containerFenster.add(labelPanel, BorderLayout.CENTER);
@@ -225,6 +211,15 @@ public class Main {
                                     //Neuen Spielstein einspeichern
                                     spielfeld.spielfeld[b][y] = spielfeld.currentPlayer;
                                     grid[b][y].setText(String.valueOf(spielfeld.currentPlayer));
+
+                                    if (spielfeld.currentPlayer == 1) {
+                                        grid[b][y].setBackground(Color.decode("#fa075c"));
+                                        grid[b][y].setOpaque(true);
+                                    } else {
+                                        grid[b][y].setBackground(Color.decode("#1a4154"));
+                                        grid[b][y].setOpaque(true);
+                                    }
+
 
                                     //Prüfen ob jemand gewonnen hat
                                     if (Spielfeld.determineWinner(spielfeld)) {
