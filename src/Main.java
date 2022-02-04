@@ -1,6 +1,5 @@
 /*
 TODO: Farben statt 1 und 2
-TODO: Gewinnerbestimmung
 TODO: Java Maskottchen bei Gewinnfenster weg
 TODO: Anleitung richtig anzeigen
 
@@ -115,16 +114,14 @@ public class Main {
         JPanel containerFenster = new JPanel(new BorderLayout());
 
         //Hier wird die Anleitung erstellt
+        JTextArea textArea = new JTextArea("Hey Leute, so könnt ihr „Vier gewinnt“ spielen: \n" +
+                                           "Über dem Spielfeld wird euch angegeben welcher Spieler an der Reihe ist. \n" +
+                                           "Anschließend muss der Spieler, der an der Reihe ist, auf die entsprechende Spalte klicken, indem er den Spielstein setzen möchte. +\n" +
+                                           "Viel Spaß beim spielen!!!");
+        textArea.setEditable(false);
+        textArea.setFont(new Font("Calibri", Font.PLAIN, 18));
         JPanel labelPanel = new JPanel();
-        someText.setText("\" Hey Leute, so könnt ihr „Vier gewinnt“ spielen:\\n\\n\n" +
-                "Über dem Spielfeld wird euch angegeben welcher Spieler an der Reihe ist.\\n\n" +
-                "Anschließend muss der Spieler, der an der Reihe ist, auf die entsprechende Spalte klicken, indem er den Spielstein setzen möchte.\\n\\n\n" +
-                "Viel Spaß beim spielen!!!");
-
-
-
-        someText.setFont(new Font("Calibri", Font.PLAIN, 34));
-        labelPanel.add(someText);
+        labelPanel.add(textArea);
         containerFenster.add(labelPanel, BorderLayout.CENTER);
 
         //Zurück zum Hauptmenü

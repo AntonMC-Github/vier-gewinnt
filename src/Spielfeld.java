@@ -26,9 +26,9 @@ public class Spielfeld {
                 if (spielfeld.spielfeld[i][j] == spielfeld.currentPlayer && spielfeld.spielfeld[i + 1][j + 1] == spielfeld.currentPlayer && spielfeld.spielfeld[i + 2][j + 2] == spielfeld.currentPlayer && spielfeld.spielfeld[i + 3][j + 3] == spielfeld.currentPlayer)
                     return true;
 
-        for (int i = 5; i >= 5; i--)
-            for (int j = 6; j >= 3; j--)
-                if (spielfeld.spielfeld[i][j] == spielfeld.currentPlayer && spielfeld.spielfeld[i - 1][j - 1] == spielfeld.currentPlayer && spielfeld.spielfeld[i - 2][j - 2] == spielfeld.currentPlayer && spielfeld.spielfeld[i - 3][j - 3] == spielfeld.currentPlayer)
+        for (int i = 5; i >= 3; i--)
+            for (int j = 0; j <= 3; j++)
+                if (spielfeld.spielfeld[i][j] == spielfeld.currentPlayer && spielfeld.spielfeld[i - 1][j + 1] == spielfeld.currentPlayer && spielfeld.spielfeld[i - 2][j + 2] == spielfeld.currentPlayer && spielfeld.spielfeld[i - 3][j + 3] == spielfeld.currentPlayer)
                     return true;
 
         return false;
