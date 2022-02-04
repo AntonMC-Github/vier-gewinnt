@@ -1,6 +1,6 @@
 /*
 TODO: Farben statt 1 und 2
-TODO: Gewinnerbestimmung
+TODO: Farblicher Hintergrund
 TODO: Java Maskottchen bei Gewinnfenster weg
 TODO: Anleitung richtig anzeigen
 
@@ -24,6 +24,9 @@ Erklärung der Funktionen:
 
 
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.util.Scanner;
 
@@ -123,7 +126,13 @@ public class Main {
 
 
 
-        someText.setFont(new Font("Calibri", Font.PLAIN, 34));
+        someText.setFont(new Font("Monospaced", Font.PLAIN, 18));
+
+        //StyledDocument doc = someText.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        //doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
         labelPanel.add(someText);
         containerFenster.add(labelPanel, BorderLayout.CENTER);
 
